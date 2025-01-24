@@ -1,0 +1,42 @@
+import random
+import time
+
+# Function to generate OTP
+def generate_otp():
+    return random.randint(100000, 999999)
+
+# Function to simulate sending OTP via SMS (printing to console in this case)
+def send_otp(phone_number, otp):
+    # Simulating SMS sending (In real-world, you'd use an API like Twilio)
+    print(f"Sending OTP {otp} to {phone_number}")
+
+# Function to verify OTP
+def verify_otp(otp_entered, otp_generated):
+    if otp_entered == otp_generated:
+        return "OTP verified successfully!"
+    else:
+        return "Invalid OTP. Try again."
+
+# Main function to handle OTP flow
+def otp_authentication():
+    # Get the phone number from the user
+    phone_number = input("Enter your phone number: ")
+
+    # Generate a random OTP
+    otp = generate_otp()
+
+    # Send the OTP to the phone number
+    send_otp(phone_number, otp)
+
+    # Wait for the user to enter the OTP (simulate delay)
+    time.sleep(2)  # Simulate waiting time (e.g., user checking phone)
+    
+    # Prompt the user to enter the OTP they received
+    otp_entered = int(input("Enter the OTP you received: "))
+
+    # Verify the OTP
+    result = verify_otp(otp_entered, otp)
+    print(result)
+
+# Start the OTP authentication process
+otp_authentication()
