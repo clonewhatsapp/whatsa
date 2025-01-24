@@ -1,0 +1,54 @@
+import random
+from twilio.rest import Client
+
+# Function to generate OTP
+def generate_otp():
+    return random.randint(100000, 999999)
+
+# Function to send OTP via Twilio
+def send_otp(phone_number, otp):
+    # Your Twilio credentials
+    account_sid = 'your_account_sid_here'
+    auth_token = 'your_auth_token_here'
+    twilio_phone_number = 'your_twilio_phone_number_here'
+
+    # Initialize Twilio client
+    client = Client(account_sid, auth_token)
+
+    # Send OTP message
+    message = client.messages.create(
+        body=f"Hello Rishabh, your OTP for authentication is {otp}.",
+        from_=twilio_phone_number,
+        to=phone_number
+    )
+
+    return message.sid  # Return message SID as confirmation
+
+# Function to verify OTP
+def verify_otp(otp_entered, otp_generated):
+    if otp_entered == otp_generated:
+        return "OTP verified successfully!"
+    else:
+        return "Invalid OTP. Try again."
+
+# Main function to handle OTP flow
+def otp_authentication():
+    # Get the phone number from the user
+    phone_number = input("Enter your phone number (with country code, e.g., +1234567890): ")
+
+    # Generate a random OTP
+    otp = generate_otp()
+
+    # Send the OTP to the phone number
+    print("Sending OTP...")
+    send_otp(phone_number, otp)
+
+    # Prompt the user to enter the OTP they received
+    otp_entered = int(input("Enter the OTP you received: "))
+
+    # Verify the OTP
+    result = verify_otp(otp_entered, otp)
+    print(result)
+
+# Start the OTP authentication process
+otp_authentication()
